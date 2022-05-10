@@ -1,11 +1,10 @@
-FROM alpine:3.13
-LABEL maintainer "Kyle Lucy <kmlucy@gmail.com>"
+FROM ubuntu:latest
 
-RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >>/etc/apk/repositories && \
-    apk add --no-cache nut@testing libressl
+RUN apt-get update && apt-get -y install nut
 
 EXPOSE 3493
 
 ADD entrypoint.sh /usr/local/bin/
 
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD upsc eaton1@localhost || exit 1
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
